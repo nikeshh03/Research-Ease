@@ -12,6 +12,18 @@ export interface AnalysisResult {
     explanation: string;
   }>;
   insights: string[];
+  recommendations: {
+    furtherReading: Array<{
+      title: string;
+      authors: string;
+      year: string;
+      relevance: string;
+      link?: string;
+    }>;
+    researchGaps: string[];
+    methodologyTips: string[];
+    futureDirections: string[];
+  };
 }
 
 export interface UploadState {

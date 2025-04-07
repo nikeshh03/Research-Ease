@@ -20,9 +20,39 @@ const ANALYSIS_PROMPT = `Analyze this research paper and provide a structured re
   "insights": [
     "Key insight 1",
     "Key insight 2"
-  ]
+  ],
+  "recommendations": {
+    "furtherReading": [
+      {
+        "title": "Related paper title",
+        "authors": "Author names",
+        "year": "Publication year",
+        "relevance": "Why this paper is relevant",
+        "link": "Optional DOI or URL"
+      }
+    ],
+    "researchGaps": [
+      "Identified research gap or opportunity"
+    ],
+    "methodologyTips": [
+      "Specific recommendation for improving or extending the methodology"
+    ],
+    "futureDirections": [
+      "Suggested direction for future research"
+    ]
+  }
 }
-Ensure the response is detailed yet accessible to students new to academic research.`;
+
+Ensure the response is detailed and includes:
+1. Clear summaries of each section
+2. Important technical terms with accessible explanations
+3. Key insights from the research
+4. 3-5 relevant papers for further reading
+5. 2-3 identified research gaps or opportunities
+6. 3-4 specific methodology recommendations
+7. 2-3 suggested future research directions
+
+Make the analysis helpful for both new researchers and experts in the field.`;
 
 // Enhanced rate limiting implementation
 class RateLimiter {
@@ -96,7 +126,7 @@ export async function analyzeText(text: string) {
           contents: [{
             parts: [
               { text: ANALYSIS_PROMPT },
-              { text: text }
+              { text }
             ]
           }]
         })
