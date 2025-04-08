@@ -30,4 +30,5 @@ export interface UploadState {
   status: 'idle' | 'uploading' | 'analyzing' | 'complete' | 'error';
   progress: number;
   error?: string;
+  file?: File;
 }

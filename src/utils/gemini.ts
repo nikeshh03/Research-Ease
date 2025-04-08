@@ -1,4 +1,4 @@
-const API_KEY = 'AIzaSyCCv3NFveJwSw6i96FMRiQXdOsbD7e8Xc0';
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent';
 
 const ANALYSIS_PROMPT = `Analyze this research paper and provide a structured response in the following JSON format:

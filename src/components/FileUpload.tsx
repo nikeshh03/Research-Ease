@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Upload, File } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void;
@@ -25,8 +26,10 @@ export function FileUpload({ onFileSelect, disabled }: FileUploadProps) {
 
   return (
     <div className="space-y-4">
-      <div
+      <motion.div
         {...getRootProps()}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
         className={`
           relative p-8 border-2 border-dashed rounded-xl text-center transition-all duration-200
           ${isDragActive
@@ -37,11 +40,24 @@ export function FileUpload({ onFileSelect, disabled }: FileUploadProps) {
         `}
       >
         <input {...getInputProps()} />
-        <div className="space-y-4">
-          <Upload className={`
-            mx-auto h-12 w-12 transition-colors duration-200
-            ${isDragActive ? 'text-indigo-500' : 'text-gray-400'}
-          `} />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="space-y-4"
+        >
+          <motion.div
+            animate={isDragActive ? {
+              scale: [1, 1.2, 1],
+              rotate: [0, 10, -10, 0],
+            } : {}}
+            transition={{ duration: 0.4 }}
+          >
+            <Upload className={`
+              mx-auto h-12 w-12 transition-colors duration-200
+              ${isDragActive ? 'text-indigo-500' : 'text-gray-400'}
+            `} />
+          </motion.div>
           <div>
             <p className="text-lg text-gray-700">
               {isDragActive
@@ -52,17 +68,24 @@ export function FileUpload({ onFileSelect, disabled }: FileUploadProps) {
               or click to select a file
             </p>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      {acceptedFiles.length > 0 && (
-        <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-100">
-          <File className="h-5 w-5 text-gray-400" />
-          <span className="text-sm text-gray-600 truncate">
-            {acceptedFiles[0].name}
-          </span>
-        </div>
-      )}
+      <AnimatePresence>
+        {acceptedFiles.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-100"
+          >
+            <File className="h-5 w-5 text-gray-400" />
+            <span className="text-sm text-gray-600 truncate">
+              {acceptedFiles[0].name}
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
