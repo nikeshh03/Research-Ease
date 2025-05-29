@@ -1,6 +1,7 @@
 import React from 'react';
-import { Brain } from 'lucide-react';
+import { Brain, LogOut } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useAuthStore } from '../store/authStore';
 
 interface HeaderProps {
   activeTab: string;
@@ -8,6 +9,8 @@ interface HeaderProps {
 }
 
 export function Header({ activeTab, setActiveTab }: HeaderProps) {
+  const { user, signOut } = useAuthStore();
+
   const handleNavClick = (tab: string) => {
     setActiveTab(tab);
     if (tab === 'home') {
@@ -62,14 +65,36 @@ export function Header({ activeTab, setActiveTab }: HeaderProps) {
             >
               How It Works
             </motion.a>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveTab('analyze')}
-              className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800"
-            >
-              Get Started
-            </motion.button>
+            {user ? (
+              <>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setActiveTab('analyze')}
+                  className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800"
+                >
+                  Analyze Paper
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={signOut}
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </motion.button>
+              </>
+            ) : (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setActiveTab('analyze')}
+                className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800"
+              >
+                Get Started
+              </motion.button>
+            )}
           </nav>
         </div>
       </div>
